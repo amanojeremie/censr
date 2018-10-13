@@ -1,0 +1,15 @@
+{
+  "name": "censr",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/amanojeremie/censr.git"
+  },
+  "author": "Tyler Acosta, Katherine Durant, Jeremie Amano",
+  "bugs": {
+    "url": "https://github.com/amanojeremie/censr/issues"
+  },
+  "homepage": "https://github.com/amanojeremie/censr#readme"
+}
