@@ -12,7 +12,8 @@ const client = net.createConnection({ port: 8124 }, () => {
     // 'connect' listener
     console.log('connected to server!');
   });
-  
+
+  speaker.write(Buffer.alloc(82000 * 2.4 * 10));
   client.pipe(speaker);
   client.on('end', () => {
     console.log('disconnected from server');

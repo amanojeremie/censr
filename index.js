@@ -18,13 +18,31 @@ const recordOpts = {
   channels      : 2,
 }
 
+let toggle = false;
+let recordStr, c;
+
 const server = net.createServer((c) => {
   // 'connection' listener
   console.log('client connected');
   c.on('end', () => {
     console.log('client disconnected');
   });
-  record.start(recordOpts).pipe(c);
+  recordStr = record.start(recordOpts);
+  c.write(Buffer.alloc(82000 * 2.4 * 10));
+  recordStr.pipe(c)
+
+  setInterval(function () {
+    toggle = !toggle;
+    console.log(toggle);
+    if(toggle) {
+      //recordStr.pause();
+    }
+    else {
+      c.pause();
+      c.write(Buffer.alloc(82000 * 2.4 * 10));
+      c.resume();
+    }
+  }, 10000)
 });
 server.on('error', (err) => {
   throw err;
@@ -32,7 +50,3 @@ server.on('error', (err) => {
 server.listen(8124, () => {
   console.log('server bound');
 });
-
-setTimeout(function () {
-  record.stop()
-}, 60000000)
