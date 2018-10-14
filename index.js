@@ -20,7 +20,7 @@ server.listen(8124, () => {
 
 // ググる
 
-const baddies = ["apple"];
+const baddies = ["apple", "apples", "Apple", "Apples", "pineapple", "pineapples",];
 const record = require('node-record-lpcm16');
 
 // Imports the Google Cloud client library
@@ -56,16 +56,27 @@ const recognizeStream = client
         ? `Transcription: ${data.results[0].alternatives[0].transcript}\n`
         : `\n\nReached transcription time limit, press Ctrl+C\n`
     );
-    baddies.forEach((bad) => {
-      let words = data.results[0].alternatives[0].transcript.split(' ');
-      if (words[words.length - 1].indexOf(bad) != -1) {
+    //new way of processing (revert if old way breaks)
+
+    // baddies.forEach((bad) => {
+    //   let words = data.results[0].alternatives[0].transcript.split(' ');
+    //   if (words[words.length - 1].indexOf(bad) != -1) {
+    //     triggered = true;
+    //     console.log("holy schnikes Batman! you said a swears: " + bad);
+    //     if (klient) {
+    //       klient.write("holy schnikes Batman! you said a swears: " + bad);
+    //     }
+    //   }
+    // })
+    data.results[0].alternatives[0].words.forEach(entry => {
+      if (baddies.includes(entry.word)) {
         triggered = true;
-        console.log("holy schnikes Batman! you said a swears: " + bad);
+        console.log("holy schnikes Batman! you said a swears: " + entry.word);
         if (klient) {
-          klient.write("holy schnikes Batman! you said a swears: " + bad);
+          klient.write("holy schnikes Batman! you said a swears: " + entry.word);
         }
       }
-    })
+    });
   });
 
 // Start recording and send the microphone input to the Speech API
